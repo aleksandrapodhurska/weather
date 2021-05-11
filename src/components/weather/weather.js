@@ -1,62 +1,60 @@
 import React from 'react';
 import Spinner from '../spinner/spinner';
 import './weather.css';
-import sun from './free-icon-sun-2121363.svg'
-import drizzle from './030-rain.svg';
 
-const Weather = ({loading, error, date, name, country, temp, weather, description, sunset, sunrise}) => {
+const Weather = ({loading, error, dt, name, country, temp, weather, description, sunset, sunrise, icon}) => {
     return (loading) ? 
-        <Spinner /> : 
-        (name) ?
+            <Spinner /> : 
+            (error) ?
+            <Error /> :
+            (name) ?
             <CardGroup
-                date={date}
+                dt={dt}
                 name={name}
                 country={country}
                 temp={temp}
                 weather={weather}
                 description={description}
                 sunset={sunset}
-                sunrise={sunrise}/> : 
-            <Error />
+                sunrise={sunrise}
+                icon={icon}/> : 
+            <NoCityEntered />
 }
 
-export default Weather;
-
-const CardGroup = ({date, name, country, temp, weather, description, sunset, sunrise}) => {
-    let url = '';
-    function ChoosingPicture(weather) {
-        switch (weather){
-            case "Sun":
-                url = sun;
-                console.log("Sun");
-                break;
-            case "Drizzle":
-                url = drizzle;
-                console.log("Drizzle");
-                break;
-            default:
-                console.log("Default");   
-        }
+const CardGroup = ({dt, name, country, temp, weather, description, sunset, sunrise, icon}) => {
+    const date = new Date();
+    function timeUpd(time) {
+        const date = new Date(time * 1000);
+        return date.toLocaleTimeString();
     }
-    ChoosingPicture(weather);
-// console.log(url);
+    
     return(
         <div className="card mb-3 weather-card">
         <div className="row g-0">
             <div className="col-md-4">
-            <img src={url} alt="sun" className="card-img"/>
+            <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather icon" className="card-img"/>
             </div>
             <div className="col-md-8">
             <div className="card-body">
-                <h5>{date}</h5>
+                <h5>{date.toDateString(dt)}</h5>
                 <h4 className="card-title">{name}, {country}</h4>
                 <p className="card-text">Temperature: {temp}</p>
-                <p className="card-text">{description}</p>
+                <p className="card-text">{weather}: {description}</p>
                 <p className="card-text-small"></p>
-                <p className="card-text"><small className="text-muted">sunrise: {sunrise} sunset: {sunset}</small></p>
+                <p className="card-text"><small className="text-muted">sunrise: {timeUpd(sunrise)} sunset: {timeUpd(sunset)}</small></p>
             </div>
             </div>
         </div>
+        </div>
+    )
+}
+
+const NoCityEntered = () => {
+    return(
+        <div className="card" >
+            <div className="card-body">
+                <p className="card-text">No city chosen yet</p>
+            </div>
         </div>
     )
 }
@@ -66,11 +64,14 @@ const Error = () => {
         <div className="card" >
             <img src="..." className="card-img-top" alt="..."/>
             <div className="card-body">
-                <p className="card-text">No city chosen yet</p>
+                <p className="card-text">Could not find the city you've chosen...</p>
+                <p className="card-text">Please check if it is written correctly</p>
             </div>
         </div>
     )
 }
+
+export default Weather;
 
 
 // function ChoosingPicture(weather) {

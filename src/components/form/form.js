@@ -6,7 +6,7 @@ const Form = ({getWeather}) => {
             <div className="col-sm-10">
             <input type="text" name="city" placeholder="Enter a city" className="form-control"/>
             </div>
-            <div class="col-sm-2">
+            <div className="col-sm-2">
             <button className="btn btn-info">Submit</button> 
             </div>
             

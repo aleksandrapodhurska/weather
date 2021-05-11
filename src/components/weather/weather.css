@@ -1,0 +1,23 @@
+.weather-card {
+    margin-top: 20px;
+    max-width: 540px;
+}
+
+.card-title {
+    margin-bottom: 1.25rem;
+}
+
+p {
+    margin-bottom: 0.5rem;
+}
+.card-text-small {
+    font-size: 14px;
+}
+.card-img {
+    max-width: 80%;
+    max-height: 80%;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    top: 35px;
+}

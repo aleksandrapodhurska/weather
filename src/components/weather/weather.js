@@ -2,7 +2,9 @@ import React from 'react';
 import Spinner from '../spinner/spinner';
 import './weather.css';
 
-const Weather = ({loading, error, dt, name, country, temp, weather, description, sunset, sunrise, icon}) => {
+const Weather = ({state, loading, error}) => {
+    const {name, dt} = state;
+
     return (loading) ? 
             <Spinner /> : 
             (error) ?
@@ -11,17 +13,14 @@ const Weather = ({loading, error, dt, name, country, temp, weather, description,
             <CardGroup
                 dt={dt}
                 name={name}
-                country={country}
-                temp={temp}
-                weather={weather}
-                description={description}
-                sunset={sunset}
-                sunrise={sunrise}
-                icon={icon}/> : 
+                state={state}/>
+                 : 
             <NoCityEntered />
 }
 
-const CardGroup = ({dt, name, country, temp, weather, description, sunset, sunrise, icon}) => {
+const CardGroup = ({state, name, dt}) => {
+    const {icon, country, temp, weather, description, sunrise, sunset} = state;
+    
     const date = new Date();
     function timeUpd(time) {
         const date = new Date(time * 1000);

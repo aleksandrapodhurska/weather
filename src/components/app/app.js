@@ -11,36 +11,32 @@ const App = () => {
     const [city, setCity] = useState('');
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [dt, setDate] = useState('');
-    const [name, setName] = useState('');
-    const [country, setCountry] = useState('');
-    const [temp, setTemp] = useState('');
-    const [weather, setWeather] = useState('');
-    const [description, setDescription] = useState('');
-    const [sunrise, setSunrise] = useState('');
-    const [sunset, setSunset] = useState('');
-    const [icon, setIcon] = useState('');
+
+    const [state, setState] = useState('');
  
     const getWeather = async (e) => {
         e.preventDefault();
         setCity(e.target.elements.city.value);
+        console.log(city);
         if (city) {
             try{
                 setLoading(true);
                 const api_url = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`);
                 const data = await api_url.json();
-                
-                setDate(data.dt);
-                setName(data.name);
-                setCountry(data.sys.country);
-                setTemp(data.main.temp);
-                setIcon(data.weather[0].icon);
-                setWeather(data.weather[0].main);
-                setDescription(data.weather[0].description);
-                setSunrise(data.sys.sunrise);
-                setSunset(data.sys.sunset);
-                setLoading(false);
                 console.log(data);
+                const info = {
+                    dt: data.dt, 
+                    name: data.name,
+                    country: data.sys.country,
+                    temp: data.main.temp,
+                    icon: data.weather[0].icon,
+                    weather: data.weather[0].main,
+                    description: data.weather[0].description,
+                    sunrise: data.sys.sunrise,
+                    sunset: data.sys.sunset
+                };
+                setState(() => info);
+                setLoading(false);
             }
             catch(error) {
                 console.log('caught error');
@@ -56,15 +52,7 @@ const App = () => {
             <Weather
                 loading={loading}
                 error={error}
-                dt={dt}
-                name={name}
-                country={country}
-                temp={temp}
-                weather={weather}
-                description={description}
-                sunset={sunset}
-                sunrise={sunrise}
-                icon={icon}
+                state={state}
                 />
         </div>
     )

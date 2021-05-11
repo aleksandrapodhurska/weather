@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /2121362-weather
+/
 /ignore
 /.pnp
 .pnp.js
